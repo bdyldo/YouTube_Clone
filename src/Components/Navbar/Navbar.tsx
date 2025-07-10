@@ -8,7 +8,7 @@ import more_icon from '../../assets/more.png'
 import notification_icon from '../../assets/notification.png'
 import profile_icon from '../../assets/jack.png'
 
-const navbar = () => {
+const Navbar = () => {
   return (
     <div>
         <nav className = 'flex-div'>
@@ -34,4 +34,4 @@ const navbar = () => {
   )
 }
 
-export default navbar
+export default Navbar

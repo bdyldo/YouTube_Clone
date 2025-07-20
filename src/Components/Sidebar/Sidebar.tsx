@@ -22,7 +22,7 @@ export type SidebarProps = {
 const Sidebar = ({sidebar}:SidebarProps) => {
   return (
     <div className = {`sidebar ${sidebar? "" : "small-sidebar"}`}>
-        <div className="sortcut-links">
+        <div className="shortcut-links">
             <div className="side-link">
                <img src={home} alt="" /><p>Home</p>
             </div>

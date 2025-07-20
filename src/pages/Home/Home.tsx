@@ -1,9 +1,13 @@
 import React from 'react'
 import './Home.css'
+import Sidebar from '../../Components/Sidebar/Sidebar'
+import type { SidebarProps } from '../../Components/Sidebar/Sidebar';
 
-const Home = () => {
+const Home = ({sidebar}: SidebarProps) => {
   return (
-    <div>Home</div>
+    <>
+      <Sidebar sidebar = {sidebar}/>
+    </>
   )
 }
 

@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
 import './Home.css'
 import Sidebar from '../../Components/Sidebar/Sidebar'
-import type { SidebarProps } from '../../Components/Sidebar/Sidebar';
 import Feed from '../../Components/Feed/Feed'
 
-const Home = ({sidebar}: SidebarProps) => {
+export type HomeProps = {
+  sidebar: boolean;
+};
+
+const Home = ({sidebar}: HomeProps) => {
   const [category, setCategory] = useState(0);
   return (
     <>

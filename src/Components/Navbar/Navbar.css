@@ -9,9 +9,10 @@ nav{
 }
 .nav-left .menu-icon{
     width: 22px;
-    margin-right: 25px;
+    margin-right: 5px;
 }
 .nav-left .logo{
+    padding-right: 10px;
     width: 130px;
 }
 .nav-middle .search-box{

@@ -2,14 +2,18 @@ import React from 'react'
 import './video.css'
 import PlayVideo from '../../../Components/PlayVideo/PlayVideo'
 import Recommended from '../../../Components/Recommended/Recommended'
+import { useParams } from 'react-router-dom'
 
-const video = () => {
+const Video = () => {
+
+  const {videoId, categoryId} = useParams<{videoId: string, categoryId: string}>();
+
   return (
     <div className='play-container'>
-      <PlayVideo/>
+      <PlayVideo videoId = {videoId}/>
       <Recommended/>
     </div>
   )
 }
 
-export default video
+export default Video

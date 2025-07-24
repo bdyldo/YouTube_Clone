@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PlayVideo.css";
-import video1 from "../../assets/video.mp4";
 import like from "../../assets/like.png";
 import dislike from "../../assets/dislike.png";
 import share from "../../assets/share.png";
@@ -8,9 +7,13 @@ import save from "../../assets/save.png";
 import jack from "../../assets/jack.png";
 import user_profile from "../../assets/user_profile.jpg";
 import { API_KEY } from "../../data";
+import { value_converter } from "../../data.ts";
+import moment from "moment";
 
 const PlayVideo = ({ videoId }: any) => {
-  const [apiData, setApiData] = useState(null);
+  const [apiData, setApiData] = useState<any>(null);
+  const [channelData, setChannelData] = useState<any>(null);
+  const [commentsData, setCommentsData] = useState<any>([]);
 
   const fetchVideoData = async () => {
     // Fetching video data
@@ -23,6 +26,38 @@ const PlayVideo = ({ videoId }: any) => {
       .catch((error) => console.error("Error fetching video data:", error));
   };
 
+  const fetchOtherData = async () => {
+    // Fetching channel data
+    const channelData_url = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}&key=${API_KEY}`;
+
+    await fetch(channelData_url)
+      .then((response) => response.json())
+      .then((data) => {
+        setChannelData(data.items[0]);
+      })
+      .catch((error) => console.error("Error fetching channel data:", error));
+
+    // Fetching comments data
+    const comment_url = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&videoId=${videoId}&key=${API_KEY}`;
+
+    await fetch(comment_url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Comments Data:", data);
+      })
+      .catch((error) => console.error("Error fetching comments data:", error));
+  };
+
+  useEffect(() => {
+    fetchVideoData();
+  }, [videoId]);
+
+  useEffect(() => {
+    if (apiData && apiData.snippet && apiData.snippet.channelId) {
+      fetchOtherData();
+    }
+  }, [apiData]);
+
   return (
     <div className="play-video">
       {/* <video src = {video1} controls autoPlay muted/> */}
@@ -33,15 +68,24 @@ const PlayVideo = ({ videoId }: any) => {
         referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen
       ></iframe>
-      <h3>Some Title</h3>
+      <h3>{apiData ? apiData?.snippet?.title : "Title here"}</h3>
       <div className="play-video-info">
-        <p>1000 Views &bull; 2 days ago</p>
+        <p>
+          {apiData?.statistics?.viewCount
+            ? value_converter(apiData.statistics.viewCount)
+            : "16K"}
+          Views &bull;{" "}
+          {apiData?.snippet?.publishedAt
+            ? moment(apiData.snippet.publishedAt).fromNow()
+            : ""}
+        </p>
         <div>
           <span>
-            <img src={like} alt=""></img>125
+            <img src={like} alt=""></img>
+            {apiData ? value_converter(apiData?.statistics?.likeCount) : 155}
           </span>
           <span>
-            <img src={dislike} alt=""></img>2
+            <img src={dislike} alt=""></img>
           </span>
           <span>
             <img src={share} alt=""></img>Share
@@ -53,18 +97,38 @@ const PlayVideo = ({ videoId }: any) => {
       </div>
       <hr />
       <div className="publisher">
-        <img src={jack} alt="" />
+        <img
+          src={
+            channelData ? channelData?.snippet?.thumbnails?.default?.url : ""
+          }
+          alt=""
+        />
         <div className="publisher-info">
-          <p>Channel Info</p>
-          <span>100k Subscribers</span>
+          <p>
+            {apiData
+              ? apiData?.snippet?.channelTitle
+              : "Failed to fetch channel title"}
+          </p>
+          <span>
+            {channelData
+              ? value_converter(channelData?.statistics.subscriberCount)
+              : "1M"}{" "}
+            Subscribers
+          </span>
         </div>
         <button className="subscribe-btn">Subscribe</button>
       </div>
       <div className="vid-description">
-        <p>Some description</p>
+        <p>
+          {apiData
+            ? apiData?.snippet?.description.slice(0, 250)
+            : "Description here"}
+        </p>
         <p>Some other descriptions</p>
         <hr />
-        <h4>100 Comments</h4>
+        <h4>
+          {apiData ? value_converter(apiData?.statistics?.commentCount) : 100}
+        </h4>
         <div className="comment">
           <img src={user_profile} alt="" />
           <div>

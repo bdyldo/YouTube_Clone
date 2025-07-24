@@ -4,11 +4,10 @@ import like from "../../assets/like.png";
 import dislike from "../../assets/dislike.png";
 import share from "../../assets/share.png";
 import save from "../../assets/save.png";
-import jack from "../../assets/jack.png";
-import user_profile from "../../assets/user_profile.jpg";
 import { API_KEY } from "../../data";
 import { value_converter } from "../../data.ts";
 import moment from "moment";
+import he from "he";
 
 const PlayVideo = ({ videoId }: any) => {
   const [apiData, setApiData] = useState<any>(null);
@@ -43,7 +42,7 @@ const PlayVideo = ({ videoId }: any) => {
     await fetch(comment_url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Comments Data:", data);
+        setCommentsData(data.items);
       })
       .catch((error) => console.error("Error fetching comments data:", error));
   };
@@ -129,20 +128,24 @@ const PlayVideo = ({ videoId }: any) => {
         <h4>
           {apiData ? value_converter(apiData?.statistics?.commentCount) : 100}
         </h4>
-        <div className="comment">
-          <img src={user_profile} alt="" />
-          <div>
-            <h3>
-              Some commenter <span>1 day ago</span>
-            </h3>
-            <p>Some comment</p>
-            <div className="comment-action">
-              <img src={like} alt="" />
-              <span>244</span>
-              <img src={dislike} alt="" />
+        {commentsData.map((comment: any, index: number) => {
+          return (
+            <div key = {index} className="comment">
+              <img src={comment.snippet.topLevelComment.snippet.authorProfileImageUrl} alt="" />
+              <div>
+                <h3>
+                  {comment.snippet.topLevelComment.snippet.authorDisplayName} <span>1 day ago</span>
+                </h3>
+                <p>{he.decode(comment.snippet.topLevelComment.snippet.textDisplay)}</p>
+                <div className="comment-action">
+                  <img src={like} alt="" />
+                  <span>{value_converter(comment.snippet.topLevelComment.snippet.likeCount)}</span>
+                  <img src={dislike} alt="" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

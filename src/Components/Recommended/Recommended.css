@@ -4,13 +4,18 @@
 .side-video-list{
     display: flex;
     justify-content:space-between;
-    margin-bottom: px;
+    margin-bottom: 10px;
 }
 .side-video-list img{
     flex-basis:49%;
     width: 50%;
+    padding-bottom: 10px;
+    cursor: pointer;
+    border-radius: 1rem;
+    padding-right: 5px;
 }
 .vid-info{
+    padding-top: 5px;
     flex-basis:49%;
 }
 .vid-info h4{

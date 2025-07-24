@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./PlayVideo.css";
 import like from "../../assets/like.png";
 import dislike from "../../assets/dislike.png";
@@ -7,7 +7,6 @@ import save from "../../assets/save.png";
 import { API_KEY } from "../../data";
 import { value_converter } from "../../data.ts";
 import moment from "moment";
-import he from "he";
 import { useParams } from "react-router-dom";
 
 const PlayVideo = () => {
@@ -66,10 +65,10 @@ const PlayVideo = () => {
       {/* <video src = {video1} controls autoPlay muted/> */}
       <iframe
         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-        frameborder="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
       ></iframe>
       <h3>{apiData ? apiData?.snippet?.title : "Title here"}</h3>
       <div className="play-video-info">
@@ -146,11 +145,7 @@ const PlayVideo = () => {
                   {comment.snippet.topLevelComment.snippet.authorDisplayName}{" "}
                   <span>1 day ago</span>
                 </h3>
-                <p>
-                  {he.decode(
-                    comment.snippet.topLevelComment.snippet.textDisplay
-                  )}
-                </p>
+                <p>{comment.snippet.topLevelComment.snippet.textDisplay}</p>
                 <div className="comment-action">
                   <img src={like} alt="" />
                   <span>

@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import "./video.css";
 import PlayVideo from "../../../Components/PlayVideo/PlayVideo";
 import Recommended from "../../../Components/Recommended/Recommended";

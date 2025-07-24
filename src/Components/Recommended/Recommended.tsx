@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Recommended.css";
 import { API_KEY } from "../../data";
 import { value_converter } from "../../data.ts";

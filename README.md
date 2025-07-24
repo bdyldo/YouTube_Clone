@@ -20,9 +20,3 @@ A React-based YouTube clone that displays video recommendations, plays videos, s
 - Google YouTube Data API v3 (for all backend data)  
 
 ---
-
-## Live Demo
-
-Check out the live version here: [https://your-username.github.io/your-repo-name/](https://your-username.github.io/your-repo-name/)
-
----

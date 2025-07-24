@@ -8,8 +8,12 @@ import { API_KEY } from "../../data";
 import { value_converter } from "../../data.ts";
 import moment from "moment";
 import he from "he";
+import { useParams } from "react-router-dom";
 
-const PlayVideo = ({ videoId }: any) => {
+const PlayVideo = () => {
+  // Extracting videoId from URL parameters
+  const { videoId }: any = useParams();
+
   const [apiData, setApiData] = useState<any>(null);
   const [channelData, setChannelData] = useState<any>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
@@ -130,16 +134,30 @@ const PlayVideo = ({ videoId }: any) => {
         </h4>
         {commentsData.map((comment: any, index: number) => {
           return (
-            <div key = {index} className="comment">
-              <img src={comment.snippet.topLevelComment.snippet.authorProfileImageUrl} alt="" />
+            <div key={index} className="comment">
+              <img
+                src={
+                  comment.snippet.topLevelComment.snippet.authorProfileImageUrl
+                }
+                alt=""
+              />
               <div>
                 <h3>
-                  {comment.snippet.topLevelComment.snippet.authorDisplayName} <span>1 day ago</span>
+                  {comment.snippet.topLevelComment.snippet.authorDisplayName}{" "}
+                  <span>1 day ago</span>
                 </h3>
-                <p>{he.decode(comment.snippet.topLevelComment.snippet.textDisplay)}</p>
+                <p>
+                  {he.decode(
+                    comment.snippet.topLevelComment.snippet.textDisplay
+                  )}
+                </p>
                 <div className="comment-action">
                   <img src={like} alt="" />
-                  <span>{value_converter(comment.snippet.topLevelComment.snippet.likeCount)}</span>
+                  <span>
+                    {value_converter(
+                      comment.snippet.topLevelComment.snippet.likeCount
+                    )}
+                  </span>
                   <img src={dislike} alt="" />
                 </div>
               </div>
